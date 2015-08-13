@@ -14,7 +14,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { stringify } from 'querystring';
 import request from 'supertest-as-promised';
-import express from 'express';
+import restify from 'restify';
 import graphqlHTTP from '../';
 
 
@@ -29,7 +29,7 @@ describe('Useful errors when incorrectly used', () => {
   });
 
   it('requires option factory function to return object', async () => {
-    var app = express();
+    var app = restify.createServer();
 
     var error;
     app.use('/graphql', graphqlHTTP(() => null));
@@ -47,7 +47,7 @@ describe('Useful errors when incorrectly used', () => {
   });
 
   it('requires option factory function to return object with schema', async () => {
-    var app = express();
+    var app = restify.createServer();
 
     var error;
     app.use('/graphql', graphqlHTTP(() => ({})));

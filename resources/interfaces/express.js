@@ -1,5 +1,5 @@
 /* @flow */
-/* Flow declarations for express requests and responses */
+/* Flow declarations for restify requests and responses */
 declare class Request {
   method: String;
   body: Object;

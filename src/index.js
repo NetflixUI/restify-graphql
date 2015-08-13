@@ -12,7 +12,8 @@ import httpError from 'http-errors';
 import { graphql } from 'graphql';
 import { formatError } from 'graphql/error';
 import { parseBody } from './parseBody';
-import type { Request, Response } from 'express';
+import type Request from 'restify/lib/request';
+import type Response from 'restify/lib/response';
 
 /**
  * Used to configure the graphQLHTTP middleware by providing a schema
@@ -39,8 +40,8 @@ export type OptionsObj = {
 type Middleware = (request: Request, response: Response) => void;
 
 /**
- * Middleware for express; takes an options object or function as input to
- * configure behavior, and returns an express middleware.
+ * Middleware for restify; takes an options object or function as input to
+ * configure behavior, and returns an restify middleware.
  */
 export default function graphqlHTTP(options: Options): Middleware {
   if (!options) {

@@ -1,23 +1,25 @@
-GraphQL Express Middleware
+GraphQL Restify Middleware
 ==========================
 
-[![Build Status](https://travis-ci.org/graphql/express-graphql.svg)](https://travis-ci.org/graphql/express-graphql)
-[![Coverage Status](https://coveralls.io/repos/graphql/express-graphql/badge.svg?branch=master&service=github)](https://coveralls.io/github/graphql/express-graphql?branch=master)
+[![Build Status](https://travis-ci.org/netflixui/restify-graphql.svg)](https://travis-ci.org/netflixui/restify-graphql)
+[![Coverage Status](https://coveralls.io/repos/netflixui/restify-graphql/badge.svg?branch=master&service=github)](https://coveralls.io/github/netflixui/restify-graphql?branch=master)
 
-Create a GraphQL HTTP server with [Express](http://expressjs.com).
+Create a GraphQL HTTP server with [Restify](http://mcavage.me/node-restify/).
 
 ```sh
-npm install --save express-graphql
+npm install --save restify-graphql
 ```
 
-Install express-graphql as middleware in your express server:
+Install restify-graphql as middleware in your restify server:
 
 ```js
-var graphqlHTTP = require('express-graphql');
+var graphqlHTTP = require('restify-graphql');
 
-var app = express();
+var app = restify.createServer();
 
-app.use('/graphql', graphqlHTTP({ schema: MyGraphQLSchema }));
+['get', 'post'].forEach(function (method) {
+	app[method]('/graphql', graphqlHTTP({ schema: MyGraphQLSchema }));
+});
 ```
 
 
@@ -36,7 +38,7 @@ The `graphqlHTTP` function accepts the following options:
 
 ### HTTP Usage
 
-Once installed at a path, `express-graphql` will accept requests with
+Once installed at a path, `restify-graphql` will accept requests with
 the parameters:
 
   * **`query`**: A string GraphQL document to be executed.
@@ -62,7 +64,7 @@ value will be used. Use [`multer`][] or a similar middleware to add support
 for `multipart/form-data` content, which may be useful for GraphQL mutations
 involving uploading files.
 
-If the POST body has not yet been parsed, graphql-express will interpret it
+If the POST body has not yet been parsed, graphql-restify will interpret it
 depending on the provided *Content-Type* header.
 
   * **`application/json`**: the POST body will be parsed as a JSON
@@ -79,17 +81,17 @@ depending on the provided *Content-Type* header.
 
 In order to support advanced scenarios such as installing a GraphQL server on a
 dynamic endpoint or accessing the current authentication information,
-graphql-express allows options to be provided as a function of each
-express request.
+graphql-restify allows options to be provided as a function of each
+restify request.
 
-This example uses [`express-session`][] to run GraphQL on a rootValue based on
+This example uses [`restify-session`][] to run GraphQL on a rootValue based on
 the currently logged-in session.
 
 ```js
-var session = require('express-session');
-var graphqlHTTP = require('express-graphql');
+var session = require('restify-session');
+var graphqlHTTP = require('restify-graphql');
 
-var app = express();
+var app = restify.createServer();
 
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
 
@@ -100,5 +102,5 @@ app.use('/graphql', graphqlHTTP(request => ({
 ```
 
 [`graphql-js`]: https://github.com/graphql/graphql-js
-[`multer`]: https://github.com/expressjs/multer
-[`express-session`]: https://github.com/expressjs/session
+[`multer`]: https://github.com/restifyjs/multer
+[`restify-session`]: https://github.com/restifyjs/session

@@ -13,12 +13,12 @@ import getBody from 'raw-body';
 import httpError from 'http-errors';
 import querystring from 'querystring';
 import zlib from 'zlib';
-import type { Request } from 'express';
+import type { Request } from 'restify';
 
 
 export function parseBody(req: Request, next: NodeCallback): void {
   try {
-    // If express has already parsed a body, use it.
+    // If restify has already parsed a body, use it.
     if (typeof req.body === 'object') {
       return next(null, req.body);
     }
